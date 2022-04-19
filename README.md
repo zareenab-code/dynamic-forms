@@ -17,7 +17,7 @@
 -   Run `php artisan db:seed`
 -   Run `php artisan serve`
 
-# Admin Credentials
+## Admin Credentials
 
 -   email : admin@admin.com
 -   password : password
