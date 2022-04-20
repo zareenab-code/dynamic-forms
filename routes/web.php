@@ -23,7 +23,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Auth::routes();
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/form/create', [App\Http\Controllers\FormController::class, 'getCreateForm'])->name('form.create');
-    Route::post('/form/create', [App\Http\Controllers\FormController::class, 'postCreateForm']);
+    Route::middleware('auth')->group(function () {
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('/form/create', [App\Http\Controllers\FormController::class, 'getCreateForm'])->name('form.create');
+        Route::post('/form/create', [App\Http\Controllers\FormController::class, 'postCreateForm']);
+        Route::get('/form/{form}', [App\Http\Controllers\FormController::class, 'getFormData'])->name('form');
+    });
 });

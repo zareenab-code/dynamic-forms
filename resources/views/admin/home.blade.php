@@ -12,13 +12,28 @@
                     </div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>S.No</th>
+                                <th>Form Title</th>
+                                <th>Opened</th>
+                                <th>Submitted</th>
+                                <th>Actions</th>
+                            </thead>
+                            <tbody>
+                                @php $i=1; @endphp
+                                @foreach ($forms as $form)
+                                    <tr>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $form->title }}</td>
+                                        <td>{{ $form->opened }}</td>
+                                        <td>{{ $form->submitted }}</td>
+                                        <td><a href="{{ route('admin.form', ['form' => $form->id]) }}">View</a></td>
+                                    </tr>
+                                    @php $i++; @endphp
+                                @endforeach()
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
