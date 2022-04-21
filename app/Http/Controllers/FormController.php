@@ -110,30 +110,31 @@ class FormController extends Controller
                 $validation_rule = $request->validation_rule;
                 $table->id();
                 foreach ($name as $key => $value) {
+                    $colName = strtolower(str_replace(" ", "_", $value));
                     if ($type[$key] == 'text') {
                         if (!empty($validation_rule[$key]) && $validation_rule[$key] == 'decimal_numbers') {
-                            $table->decimal($name[$key], 15, 2)->nullable();
+                            $table->decimal($colName, 15, 2)->nullable();
                         } elseif (!empty($validation_rule[$key]) && $validation_rule[$key] == 'numbers') {
-                            $table->bigInteger($name[$key])->nullable();
+                            $table->bigInteger($colName)->nullable();
                         } else {
                             if (!empty($max[$key])) {
-                                $table->string($name[$key], $max[$key])->nullable();
+                                $table->string($colName, $max[$key])->nullable();
                             } else {
-                                $table->string($name[$key], 255)->nullable();
+                                $table->string($colName, 255)->nullable();
                             }
                         }
                     } else if ($type[$key] == 'textarea') {
                         if (!empty($max[$key])) {
-                            $table->string($name[$key], $max[$key])->nullable();
+                            $table->string($colName, $max[$key])->nullable();
                         } else {
-                            $table->text($name[$key])->nullable();
+                            $table->text($colName)->nullable();
                         }
                     } else if ($type[$key] == 'date') {
-                        $table->date($name[$key])->nullable();
+                        $table->date($colName)->nullable();
                     } else if ($type[$key] == 'checkbox') {
-                        $table->boolean($name[$key])->nullable();
+                        $table->boolean($colName)->nullable();
                     } else {
-                        $table->string($name[$key], 255)->nullable();
+                        $table->string($colName, 255)->nullable();
                     }
 
 
