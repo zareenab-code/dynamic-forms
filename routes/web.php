@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\FormController::class, 'index']);
+Route::get('/form/open/{form}', [App\Http\Controllers\FormController::class, 'openForm'])->name('form.open');
 Route::get('/form/{form}', [App\Http\Controllers\FormController::class, 'getForm'])->name('form');
 Route::post('/form/{form}', [App\Http\Controllers\FormController::class, 'postForm']);
 

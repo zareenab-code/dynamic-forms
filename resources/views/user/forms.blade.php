@@ -21,15 +21,21 @@
                                 <th>Actions</th>
                             </thead>
                             <tbody>
-                                @php $i=1; @endphp
-                                @foreach ($forms as $form)
+                                @if (count($forms) > 0)
+                                    @php $i=1; @endphp
+                                    @foreach ($forms as $form)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $form->title }}</td>
+                                            <td><a href="{{ route('form.open', ['form' => $form->id]) }}">View</a></td>
+                                        </tr>
+                                        @php $i++; @endphp
+                                    @endforeach()
+                                @else
                                     <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>{{ $form->title }}</td>
-                                        <td><a href="{{ route('form', ['form' => $form->id]) }}">View</a></td>
+                                        <td class="text-center" colspan="3">No Data Found.</td>
                                     </tr>
-                                    @php $i++; @endphp
-                                @endforeach()
+                                @endif
                             </tbody>
                         </table>
                     </div>

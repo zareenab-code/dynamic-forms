@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -24,17 +24,25 @@
                                 <tbody>
                                     @if (count($formData) > 0)
                                         @php $index=1; @endphp
-                                        @for ($j = 0; $j < count($formData) / count($formFields); $j++)
+                                        @foreach ($formData as $data)
                                             <tr>
                                                 <td>{{ $index }}</td>
-                                                @for ($k = $j * count($formFields); $k < ($j + 1) * count($formFields); $k++)
+                                                @for ($i = 0; $i < count($formFields); $i++)
+                                                    @php $name=$formFields[$i]->name; @endphp
                                                     <td>
-                                                        {{ $formData[$k]->input_value }}
+                                                        @if ($formFields[$i]->type == 'checkbox')
+                                                            {{ $data->$name ? 'Yes' : 'No' }}
+                                                        @elseif($formFields[$i]->type == 'date' && !empty($data->$name))
+                                                            {{ date('d-m-Y', strtotime($data->$name)) }}
+                                                        @else
+                                                            {{ $data->$name }}
+                                                        @endif
+
                                                     </td>
                                                 @endfor
                                                 @php $index++; @endphp
                                             </tr>
-                                        @endfor
+                                        @endforeach
                                     @else
                                         <tr>
                                             <td class="text-center" colspan="{{ count($formFields) + 1 }}">No Data Found

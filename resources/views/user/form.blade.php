@@ -8,7 +8,7 @@
                     <div class="card-header">{{ $form->title }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('form', ['form' => $form->id]) }}">
+                        <form method="POST" action="{{ route('form', ['form' => $form->id]) }}" autocomplete="off">
                             @csrf
                             @foreach ($formFields as $formField)
                                 @php
@@ -48,7 +48,8 @@
                                             <option value="">-Select-</option>
                                             @foreach ($dropdownOptions as $opt)
                                                 <option value="{{ $opt }}"
-                                                    @if (old($formField->name) == $opt) selected @endif>{{ $opt }}</option>
+                                                    @if (old($formField->name) == $opt) selected @endif>{{ $opt }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div class="form-text text-danger">
@@ -60,12 +61,14 @@
                                     <div class="mb-3">
                                         <label for="{{ $formField->name }}"
                                             class="form-label">{{ $formField->label }}</label>
-                                            @foreach ($radioOptions as $opt)
+                                        @foreach ($radioOptions as $opt)
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="{{ $formField->name }}" value="{{ $opt }}"  @if (old($formField->name) == $opt) checked @endif>
+                                                <input class="form-check-input" type="radio"
+                                                    name="{{ $formField->name }}" value="{{ $opt }}"
+                                                    @if (old($formField->name) == $opt) checked @endif>
                                                 <label class="form-check-label">{{ $opt }}</label>
                                             </div>
-                                            @endforeach
+                                        @endforeach
                                         <div class="form-text text-danger">
                                             {{ $errors->first($formField->name) }}
                                         </div>
@@ -80,7 +83,7 @@
                                         <div class="form-text text-danger">
                                             {{ $errors->first($formField->name) }}
                                         </div>
-                                    </div> 
+                                    </div>
                                 @endif
                             @endforeach
 

@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -25,7 +25,7 @@
                             <p class="text-danger" id="error_msg"></p>
                         </div>
 
-                        <form id="create_form" method="POST" action="{{ route('admin.form.create') }}">
+                        <form id="create_form" method="POST" action="{{ route('admin.form.create') }}" autocomplete="off">
 
                             <div class="mb-3">
                                 <label for="form_title" class="form-label">Form Title</label>
@@ -43,10 +43,11 @@
                                             <th>Label</th>
                                             <th>Type</th>
                                             <th>Required</th>
-                                            <th>Only Alpha</th>
+                                            <th>Validate</th>
+                                            {{-- <th>Only Alpha</th>
                                             <th>Alpha Numeric</th>
                                             <th>Only Numbers</th>
-                                            <th>Decimal Numbers</th>
+                                            <th>Decimal Numbers</th> --}}
                                             <th>Min</th>
                                             <th>Max</th>
                                             <th>Options</th>
@@ -80,6 +81,16 @@
                                                 <input type="checkbox" name="required-check[]" class="req_chk" />
                                             </td>
                                             <td>
+                                                <select class="form-control v_rule" name="validation_rule[]">
+                                                    <option value="">-Select Rule-</option>
+                                                    <option value="alpha">Alpha</option>
+                                                    <option value="alpha_numeric">Alpha Numeric</option>
+                                                    <option value="numbers">Number</option>
+                                                    <option value="integers">Integer</option>
+                                                    <option value="decimal_numbers">Decimal Number</option>
+                                                </select>
+                                            </td>
+                                            {{-- <td>
                                                 <input type="hidden" name="alpha[]" class="alpha_hid" value="0" />
                                                 <input type="checkbox" name="alpha-check[]" class="alpha_chk" />
                                             </td>
@@ -98,7 +109,7 @@
                                                     class="decimal_num_hid">
                                                 <input type="checkbox" name="decimal_numbers_check[]"
                                                     class="decimal_num_chk" />
-                                            </td>
+                                            </td> --}}
 
                                             <td>
                                                 <input type="number" name="min[]" placeholder="Minimum"
@@ -141,7 +152,7 @@
                     <h5 class="modal-title" id="optionsTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="optForm">
+                <form id="optForm" autocomplete="off">
                     <div class="modal-body">
                         <div class="text-center">
                             <p id="optErr" class="text-danger"></p>
@@ -217,24 +228,35 @@
             row += '</td>';
 
             row += '<td>';
-            row += '<input type="hidden" value="0" name="alpha[]" class="alpha_hid">';
-            row += '<input type="checkbox" name="alpha-check[]" class="alpha_chk" />';
+            row += '<select class="form-control v_rule" name="validation_rule[]" >';
+            row += '<option value="">-Select Rule-</option>';
+            row += '<option value="alpha">Alpha</option>';
+            row += '<option value="alpha_numeric">Alpha Numeric</option>';
+            row += '<option value="numbers">Number</option>';
+            row += '<option value="integers">Integer</option>';
+            row += '<option value="decimal_numbers">Decimal Number</option>';
+            row += '</select>';
             row += '</td>';
 
-            row += '<td>';
-            row += '<input type="hidden" value="0" name="alpha_numeric[]" class="   alpha_num_hid">';
-            row += '<input type="checkbox" name="alpha_numeric_check[]" class="alpha_num_chk" />';
-            row += '</td>';
+            // row += '<td>';
+            // row += '<input type="hidden" value="0" name="alpha[]" class="alpha_hid">';
+            // row += '<input type="checkbox" name="alpha-check[]" class="alpha_chk" />';
+            // row += '</td>';
 
-            row += '<td>';
-            row += '<input type="hidden" value="0" name="numbers[]" class="    num_hid">';
-            row += '<input type="checkbox" name="numbers_check[]" class="num_chk" />';
-            row += '</td>';
+            // row += '<td>';
+            // row += '<input type="hidden" value="0" name="alpha_numeric[]" class="   alpha_num_hid">';
+            // row += '<input type="checkbox" name="alpha_numeric_check[]" class="alpha_num_chk" />';
+            // row += '</td>';
 
-            row += '<td>';
-            row += '<input type="hidden" value="0" name="decimal_numbers[]" class="decimal_num_hid">';
-            row += '<input type="checkbox" name="decimal_numbers_check[]" class="decimal_num_chk" />';
-            row += '</td>';
+            // row += '<td>';
+            // row += '<input type="hidden" value="0" name="numbers[]" class="    num_hid">';
+            // row += '<input type="checkbox" name="numbers_check[]" class="num_chk" />';
+            // row += '</td>';
+
+            // row += '<td>';
+            // row += '<input type="hidden" value="0" name="decimal_numbers[]" class="decimal_num_hid">';
+            // row += '<input type="checkbox" name="decimal_numbers_check[]" class="decimal_num_chk" />';
+            // row += '</td>';
 
             row += '<td>';
             row += '<input type="number" name="min[]" placeholder="Minimum" class="min form-control" />';
@@ -306,8 +328,12 @@
             var rowIndex = $(this).closest('tr').index();
             var minInput = $(this).closest('tr').find('.min');
             var maxInput = $(this).closest('tr').find('.max');
+            var validation = $(this).closest('tr').find('.v_rule');
 
             if (value == 'dropdown' || value == 'radio') {
+                minInput.hide();
+                maxInput.hide();
+                validation.hide();
                 openAddOptions(rowIndex);
             } else if (value == 'text') {
                 minInput.show();
@@ -325,6 +351,7 @@
                 // maxInput.attr("type", 'number');
                 minInput.hide();
                 maxInput.hide();
+                validation.hide();
                 $(this).closest('tr').find('.chosenOptions').val('');
                 $(this).closest('tr').find('.chosenOptionsStr').text('');
                 $(this).closest('tr').find('.optEditLink').hide();
